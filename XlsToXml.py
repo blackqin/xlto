@@ -1,4 +1,5 @@
-import xlrd
+import xlrd3 as xlrd
+import codecs
 
 # Excel parser
 class XlsToXmlParser:
@@ -15,7 +16,7 @@ class XlsToXmlParser:
 
 	#
 	def parseDir(self, inputDir, outputDir):
-		print "Warning: Incomplete..."
+		print("Warning: Incomplete...")
 
 	#
 	def parseXlsList(self, filePathList, outputDir):
@@ -37,12 +38,12 @@ class XlsToXmlParser:
 
 		# Do nothing if the sheet is empty
 		if rows <= 0:
-			print "Warning: " + name + " sheet is empty!"
+			print("Warning: " + name + " sheet is empty!")
 			return
 
 		# Generate xml string~
 		xmlStr = self._toXmlStr(sheet, rows)
-		print "\n" + xmlStr + "\n"
+		print("\n" + xmlStr + "\n")
 
 		# Save as xml file~
 		self._saveXml(xmlStr, name, outputDir)
@@ -69,7 +70,7 @@ class XlsToXmlParser:
 
 		for cell in row:
 			cellName = sheet.cell_value(self.NAME_ROW_INDEX, colIndex)
-			xmlStr += cellName + "=\"" + unicode(cell.value) + "\" "
+			xmlStr += cellName + "=\"" + str(cell.value) + "\" "
 			colIndex += 1
 		xmlStr += "/>"
 
@@ -77,11 +78,10 @@ class XlsToXmlParser:
 
 	# Save as xml file~
 	def _saveXml(self, xmlStr, fileName, outputDir):
-		utf8Str = xmlStr.encode("utf-8")
-		fileName += ".xml"
+		filePath = outputDir + "/" + fileName + ".xml"
 
-		file = open(outputDir + "/" + fileName, 'w')
-		file.write(utf8Str)
+		file = open(filePath, 'w', encoding='utf-8')
+		file.write(xmlStr)
 		file.close()
 """
 	# Parse xls file(s) which could be found at 'filePathList'~

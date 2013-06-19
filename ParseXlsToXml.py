@@ -8,7 +8,7 @@ def parseSpecifiedXlsFiles(xlsFiles):
 
 # Parse all xls files in current folder~
 def parseAllXlsFiles():
-	print "Error: No xls file accepted!"
+	print("Error: No xls file accepted!")
 
 
 # Parse xls file(s) from arguments, or all xls files in current folder~
@@ -17,7 +17,7 @@ argvLen = len(sys.argv)
 parser = XlsToXmlParser()
 #parser.parseDir("input", "output")
 #parser.parseXls("input/test1.xls", "output")
-parser.parseXlsList(["input/test1.xls", "input/test2.xls"], "output")
+parser.parseXlsList(["input/test001.xls", "input/test002.xls"], "output")
 
 """
 if argvLen > 1:
