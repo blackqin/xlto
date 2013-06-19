@@ -1,5 +1,5 @@
+import os
 import xlrd3 as xlrd
-import codecs
 
 # Excel parser
 class XlsToXml:
@@ -14,11 +14,14 @@ class XlsToXml:
 	def __init__(self):
 		pass
 
-	#
+	# Parse all xls files in "inputDir"
 	def parseDir(self, inputDir, outputDir):
-		print("Warning: Incomplete...")
+		for dirPath, dirNames, fileNames in os.walk(inputDir):
+			for fileName in fileNames:
+				filePath = os.path.join(dirPath, fileName)
+				self.parseXls(filePath, outputDir)
 
-	#
+	# Parse more than one xls file at a time~
 	def parseXlsList(self, filePathList, outputDir):
 		for filePath in filePathList:
 			self.parseXls(filePath, outputDir)
@@ -38,7 +41,7 @@ class XlsToXml:
 
 		# Do nothing if the sheet is empty
 		if rows <= 0:
-			print("Warning: " + name + " sheet is empty!")
+			print("Warning: Sheet [" + name + "] is empty!")
 			return
 
 		# Generate xml string~
@@ -78,17 +81,8 @@ class XlsToXml:
 
 	# Save as xml file~
 	def _saveXml(self, xmlStr, fileName, outputDir):
-		filePath = outputDir + "/" + fileName + ".xml"
+		filePath = os.path.join(outputDir, fileName + ".xml")
 
 		file = open(filePath, 'w', encoding='utf-8')
 		file.write(xmlStr)
 		file.close()
-"""
-	# Parse xls file(s) which could be found at 'filePathList'~
-	def parse(self, filePathList):
-		if type(filePathList) is str:
-			self.parseXls(filePathList)
-		elif type(filePathList) is list:
-			for filePath in filePathList:
-				self.parseXls(filePath)
-"""

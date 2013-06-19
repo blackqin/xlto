@@ -1,23 +1,14 @@
 import sys
 from xlstoxml import *
 
-# Parse xls files passed as arguments~
-def parseSpecifiedXlsFiles(xlsFiles):
-	parser = XlsToXml()
-	parser.parse(xlsFiles)
 
-# Parse all xls files in current folder~
-def parseAllXlsFiles():
-	print("Error: No xls file accepted!")
-
-
-# Parse xls file(s) from arguments, or all xls files in current folder~
+# Parse xls file(s) from arguments~
 argvLen = len(sys.argv)
 
 parser = XlsToXml()
-#parser.parseDir("input", "output")
+parser.parseDir("input", "output")
 #parser.parseXls("input/test1.xls", "output")
-parser.parseXlsList(["input/test001.xls", "input/test002.xls"], "output")
+#parser.parseXlsList(["input/test001.xls", "input/test002.xls"], "output")
 
 """
 if argvLen > 1:
