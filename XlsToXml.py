@@ -2,7 +2,7 @@ import xlrd3 as xlrd
 import codecs
 
 # Excel parser
-class XlsToXmlParser:
+class XlsToXml:
 	# Constants
 	RESERVED_ROWS			=	4
 	CELL_TYPE_ROW_INDEX		=	0
