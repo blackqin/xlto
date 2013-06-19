@@ -46,12 +46,11 @@ class XlsToXml:
 
 		# Generate xml string~
 		xmlStr = self._toXmlStr(sheet, rows)
-		print("\n" + xmlStr + "\n")
 
 		# Save as xml file~
 		self._saveXml(xmlStr, name, outputDir)
 
-	# Parse one sheet to xml string~
+	# Convert one sheet to xml string~
 	def _toXmlStr(self, sheet, rows):
 		rootTagName = sheet.name
 		xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
@@ -64,7 +63,7 @@ class XlsToXml:
 
 		return xmlStr
 
-	# Parse one row to xml string~
+	# Convert one row to xml string~
 	def _toXmlRow(self, sheet, rowIndex):
 		row = sheet.row(rowIndex)
 		colIndex = 0
