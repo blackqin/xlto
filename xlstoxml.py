@@ -67,15 +67,23 @@ class XlsToXml:
 		row = sheet.row(rowIndex)
 		colIndex = 0
 		cellName = ""
-		xmlStr = "<"
+		xmlStr = "<row "
 
 		for cell in row:
 			cellName = sheet.cell_value(self.NAME_ROW_INDEX, colIndex)
-			xmlStr += cellName + "=\"" + str(cell.value) + "\" "
+			cellValue = self._correctCellValue(cell);
+			xmlStr += str(cellName) + "=\"" + str(cellValue) + "\" "
 			colIndex += 1
 		xmlStr += "/>"
 
 		return xmlStr
+
+	# Correct cell value for sure~
+	def _correctCellValue(self, cell):
+		if cell.ctype == xlrd.XL_CELL_NUMBER and cell.value == int(cell.value):
+			return int(cell.value)
+		else:
+			return cell.value
 
 	# Save as xml file~
 	def _saveXml(self, xmlStr, fileName, outputDir):
