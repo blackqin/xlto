@@ -41,7 +41,6 @@ class XlsToXml:
 
 		# Do nothing if the sheet is empty
 		if rows <= 0:
-			print("Warning: Sheet [" + name + "] is empty!")
 			return
 
 		# Generate xml string~
