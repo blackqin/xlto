@@ -15,7 +15,7 @@ class XlsToXml(XlTo):
 		pass
 
 	# Parse one xls file~
-	def parseXls(self, filePath, outputDir):
+	def parseFile(self, filePath, outputDir):
 		xls = xlrd.open_workbook(filePath)
 
 		for sheet in xls.sheets():
@@ -27,7 +27,7 @@ class XlsToXml(XlTo):
 		rows = sheet.nrows - self.RESERVED_ROWS
 		cols = sheet.ncols
 
-		# Do nothing if the sheet is empty
+		# Do nothing if the sheet is empty~
 		if rows <= 0:
 			return
 
@@ -35,7 +35,8 @@ class XlsToXml(XlTo):
 		xmlStr = self._toXmlStr(sheet, rows)
 
 		# Save as xml file~
-		self._saveFile(outputDir, name, "xml", xmlStr)
+		fileName = name + ".xml"
+		self._saveFile(outputDir, fileName, xmlStr)
 
 	# Convert one sheet to xml string~
 	def _toXmlStr(self, sheet, rows):
@@ -66,6 +67,7 @@ class XlsToXml(XlTo):
 				xmlStr += cellName + "=\"" + cellValue + "\" "
 
 			colIndex += 1
+
 		xmlStr += "/>"
 
 		return xmlStr

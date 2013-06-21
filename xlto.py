@@ -11,7 +11,7 @@ class XlTo:
 		for dirPath, dirNames, fileNames in os.walk(inputDir):
 			for fileName in fileNames:
 				filePath = os.path.join(dirPath, fileName)
-				self.parseXls(filePath, outputDir)
+				self.parseFile(filePath, outputDir)
 
 	# Parse a list of files~
 	def parseFileList(self, filePathList, outputDir):
@@ -23,9 +23,8 @@ class XlTo:
 		print("[XlTo] Virtual method to parse an file~")
 
 	# Save as expecting file format~
-	def _saveFile(self, outputDir, fileName, fileExtension, fileContent, fileEncoding="utf-8"):
-		fullFileName = fileName + "." + fileExtension
-		filePath = os.path.join(outputDir, fullFileName)
+	def _saveFile(self, outputDir, fileName, fileContent, fileEncoding="utf-8"):
+		filePath = os.path.join(outputDir, fileName)
 
 		file = open(filePath, 'w', encoding=fileEncoding)
 		file.write(fileContent)
