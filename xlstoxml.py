@@ -1,8 +1,9 @@
 import os
 import xlrd3 as xlrd
+from xlto import XlTo
 
 # Excel parser
-class XlsToXml:
+class XlsToXml(XlTo):
 	# Constants
 	RESERVED_ROWS			=	4
 	CELL_TYPE_ROW_INDEX		=	0
@@ -13,18 +14,6 @@ class XlsToXml:
 	# Initialization
 	def __init__(self):
 		pass
-
-	# Parse all xls files in "inputDir"
-	def parseDir(self, inputDir, outputDir):
-		for dirPath, dirNames, fileNames in os.walk(inputDir):
-			for fileName in fileNames:
-				filePath = os.path.join(dirPath, fileName)
-				self.parseXls(filePath, outputDir)
-
-	# Parse more than one xls file at a time~
-	def parseXlsList(self, filePathList, outputDir):
-		for filePath in filePathList:
-			self.parseXls(filePath, outputDir)
 
 	# Parse one xls file~
 	def parseXls(self, filePath, outputDir):
@@ -47,7 +36,7 @@ class XlsToXml:
 		xmlStr = self._toXmlStr(sheet, rows)
 
 		# Save as xml file~
-		self._saveXml(xmlStr, name, outputDir)
+		self._saveFile(outputDir, name, "xml", xmlStr)
 
 	# Convert one sheet to xml string~
 	def _toXmlStr(self, sheet, rows):
@@ -70,9 +59,13 @@ class XlsToXml:
 		xmlStr = "<row "
 
 		for cell in row:
-			cellName = sheet.cell_value(self.NAME_ROW_INDEX, colIndex)
-			cellValue = self._correctCellValue(cell);
-			xmlStr += str(cellName) + "=\"" + str(cellValue) + "\" "
+			cellName = (str(sheet.cell_value(self.NAME_ROW_INDEX, colIndex))).strip()
+			cellValue = (str(self._correctCellValue(cell))).strip()
+
+			# Don't add empty cells~
+			if (cellName != ""):
+				xmlStr += cellName + "=\"" + cellValue + "\" "
+
 			colIndex += 1
 		xmlStr += "/>"
 
@@ -84,11 +77,3 @@ class XlsToXml:
 			return int(cell.value)
 		else:
 			return cell.value
-
-	# Save as xml file~
-	def _saveXml(self, xmlStr, fileName, outputDir):
-		filePath = os.path.join(outputDir, fileName + ".xml")
-
-		file = open(filePath, 'w', encoding='utf-8')
-		file.write(xmlStr)
-		file.close()
