@@ -1,4 +1,3 @@
-import os
 import xlrd3 as xlrd
 from xlto import XlTo
 

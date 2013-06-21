@@ -1,5 +1,5 @@
 import sys
-from xlstoxml import *
+from xlstoxml import XlsToXml
 
 # Parse xls file(s) from arguments~
 argvLen = len(sys.argv)

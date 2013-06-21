@@ -1,9 +1,7 @@
 import os
 
-# Base class to parse Excel file to other expecting file format~
+# Base class to parse Excel file(s) to other expecting file format~
 class XlTo:
-	# Constants
-
 	# Initialization
 	def __init__(self):
 		pass
