@@ -1,13 +1,15 @@
 import xlrd3 as xlrd
 from xlto import XlTo
 
+#TODO list
+"""
+* cell type row index. (eg. required, optional)
+* data type row index. (uint, bool, string)
+* root tag attributes. (<Sheet version="1.02">)
+"""
+
 # Excel parser
 class XlsToXml(XlTo):
-	# Constants
-#	CELL_TYPE_ROW_INDEX		=	0
-#	DATA_TYPE_ROW_INDEX		=	1
-#	COMMENT_ROW_INDEX		=	3
-
 	# Variables
 	_reservedRows = 4
 	_nameRowIndex = 2
