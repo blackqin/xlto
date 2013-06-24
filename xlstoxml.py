@@ -4,15 +4,33 @@ from xlto import XlTo
 # Excel parser
 class XlsToXml(XlTo):
 	# Constants
-	RESERVED_ROWS			=	4
-	CELL_TYPE_ROW_INDEX		=	0
-	DATA_TYPE_ROW_INDEX		=	1
-	NAME_ROW_INDEX			=	2
-	COMMENT_ROW_INDEX		=	3
+#	CELL_TYPE_ROW_INDEX		=	0
+#	DATA_TYPE_ROW_INDEX		=	1
+#	COMMENT_ROW_INDEX		=	3
+
+	# Variables
+	_reservedRows = 4
+	_nameRowIndex = 2
 
 	# Initialization
 	def __init__(self):
 		pass
+
+	@property
+	def reservedRows(self):
+		return self._reservedRows
+
+	@reservedRows.setter
+	def reservedRows(self, value):
+		self._reservedRows = value
+
+	@property
+	def nameRowIndex(self):
+		return self._nameRowIndex
+
+	@nameRowIndex.setter
+	def nameRowIndex(self, value):
+		self._nameRowIndex = value
 
 	# Parse one xls file~
 	def parseFile(self, filePath, outputDir):
@@ -24,7 +42,7 @@ class XlsToXml(XlTo):
 	# Parse one sheet~
 	def _parseSheet(self, sheet, outputDir):
 		name = sheet.name
-		rows = sheet.nrows - self.RESERVED_ROWS
+		rows = sheet.nrows - self.reservedRows
 		cols = sheet.ncols
 
 		# Do nothing if the sheet is empty~
@@ -44,7 +62,7 @@ class XlsToXml(XlTo):
 		xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
 		xmlStr += "<" + rootTagName + ">\n"
 
-		for i in range(self.RESERVED_ROWS, self.RESERVED_ROWS + rows):
+		for i in range(self.reservedRows, self.reservedRows + rows):
 			xmlStr += "\t" + self._toXmlRow(sheet, i) + "\n"
 
 		xmlStr += "</" + rootTagName + ">"
@@ -59,7 +77,7 @@ class XlsToXml(XlTo):
 		xmlStr = "<row "
 
 		for cell in row:
-			cellName = (str(sheet.cell_value(self.NAME_ROW_INDEX, colIndex))).strip()
+			cellName = (str(sheet.cell_value(self.nameRowIndex, colIndex))).strip()
 			cellValue = (str(self._correctCellValue(cell))).strip()
 
 			# Don't add empty cells~
