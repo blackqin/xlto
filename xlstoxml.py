@@ -90,11 +90,24 @@ class XlsToXml(XlTo):
     # Parse one cell~
     def _parseCell(self, sheet, cell, colIndex):
         cellName = (str(sheet.cell_value(self.nameRowIndex, colIndex))).strip()
+        cellType = cell.ctype
+        cellValue = cell.value
 #TODO
 # parse these types: int, uint, bool, time, str
-        if cell.ctype == xlrd.XL_CELL_NUMBER and cell.value == int(cell.value):
-            cellValue = int(cell.value)
+        if cellType == xlrd.XL_CELL_EMPTY or cellType == xlrd.XL_CELL_BLANK:
+            pass
+        elif cellType == xlrd.XL_CELL_TEXT:
+            pass
+        elif cellType == xlrd.XL_CELL_NUMBER:
+            if (cellValue == int(cellValue)):
+                cellValue = int(cellValue)
+        elif cellType == xlrd.XL_CELL_DATE:
+            pass
+        elif cellType == xlrd.XL_CELL_BOOLEAN:
+            pass
+        elif cellType == xlrd.XL_CELL_ERROR:
+            pass
         else:
-            cellValue = cell.value
+            pass
 
         return (cellName, cellValue)
