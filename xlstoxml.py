@@ -1,12 +1,8 @@
 import xlrd3 as xlrd
 from xlto import XlTo
 
-#TODO list
-"""
-* cell type row index. (eg. required, optional)
-* data type row index. (uint, bool, string)
-* root tag attributes. (<Sheet version="1.02">)
-"""
+#TODO
+# root tag attributes. (<Sheet version="1.02">)
 
 # Excel parser
 class XlsToXml(XlTo):
@@ -94,7 +90,8 @@ class XlsToXml(XlTo):
     # Parse one cell~
     def _parseCell(self, sheet, cell, colIndex):
         cellName = (str(sheet.cell_value(self.nameRowIndex, colIndex))).strip()
-
+#TODO
+# parse these types: int, uint, bool, time, str
         if cell.ctype == xlrd.XL_CELL_NUMBER and cell.value == int(cell.value):
             cellValue = int(cell.value)
         else:
