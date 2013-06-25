@@ -79,12 +79,11 @@ class XlsToXml(XlTo):
         xmlStr = "<row "
 
         for cell in row:
-            cellName = (str(sheet.cell_value(self.nameRowIndex, colIndex))).strip()
-            cellValue = (str(self._correctCellValue(cell))).strip()
+            (cellName, cellValue) = self._parseCell(sheet, cell, colIndex)
 
             # Don't add empty cells~
-            if (cellName != ""):
-                xmlStr += cellName + "=\"" + cellValue + "\" "
+            if (cellName != "" or cellValue != ""):
+                xmlStr += cellName + "=\"" + str(cellValue) + "\" "
 
             colIndex += 1
 
@@ -92,13 +91,13 @@ class XlsToXml(XlTo):
 
         return xmlStr
 
-    # Correct cell value for sure~
-    def _correctCellValue(self, cell):
-        if cell.ctype == xlrd.XL_CELL_NUMBER and cell.value == int(cell.value):
-            return int(cell.value)
-        else:
-            return cell.value
-
     # Parse one cell~
-    def _parseCell():
-        pass
+    def _parseCell(self, sheet, cell, colIndex):
+        cellName = (str(sheet.cell_value(self.nameRowIndex, colIndex))).strip()
+
+        if cell.ctype == xlrd.XL_CELL_NUMBER and cell.value == int(cell.value):
+            cellValue = int(cell.value)
+        else:
+            cellValue = cell.value
+
+        return (cellName, cellValue)
