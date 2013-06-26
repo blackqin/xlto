@@ -9,6 +9,7 @@ class XlsToXml(XlTo):
     # Variables
     _reservedRows = 4
     _nameRowIndex = 2
+    _xls = None
 
     # Initialization
     def __init__(self):
@@ -32,9 +33,9 @@ class XlsToXml(XlTo):
 
     # Parse one xls file~
     def parseFile(self, filePath, outputDir):
-        xls = xlrd.open_workbook(filePath)
+        self._xls = xlrd.open_workbook(filePath)
 
-        for sheet in xls.sheets():
+        for sheet in self._xls.sheets():
             self._parseSheet(sheet, outputDir)
 
     # Parse one sheet~
@@ -78,7 +79,7 @@ class XlsToXml(XlTo):
             (cellName, cellValue) = self._parseCell(sheet, cell, colIndex)
 
             # Don't add empty cells~
-            if (cellName != "" or cellValue != ""):
+            if (cellName != "" and cellValue != ""):
                 xmlStr += cellName + "=\"" + str(cellValue) + "\" "
 
             colIndex += 1
@@ -92,22 +93,33 @@ class XlsToXml(XlTo):
         cellName = (str(sheet.cell_value(self.nameRowIndex, colIndex))).strip()
         cellType = cell.ctype
         cellValue = cell.value
-#TODO
-# parse these types: int, uint, bool, time, str
+
         if cellType == xlrd.XL_CELL_EMPTY or cellType == xlrd.XL_CELL_BLANK:
             pass
         elif cellType == xlrd.XL_CELL_TEXT:
             pass
         elif cellType == xlrd.XL_CELL_NUMBER:
-            if (cellValue == int(cellValue)):
-                cellValue = int(cellValue)
+            intValue = int(cellValue)
+            if cellValue == intValue:
+                cellValue = intValue
         elif cellType == xlrd.XL_CELL_DATE:
-            pass
+            timeTuple = xlrd.xldate_as_tuple(cellValue, self._xls.datemode)
+            cellValue = self._toTimeStr(timeTuple)
         elif cellType == xlrd.XL_CELL_BOOLEAN:
-            pass
+            cellValue = int(cellValue)
         elif cellType == xlrd.XL_CELL_ERROR:
-            pass
-        else:
             pass
 
         return (cellName, cellValue)
+
+    # 
+    def _toTimeStr(self, timeTuple):
+        year = str(timeTuple[0])
+        month = str(timeTuple[1])
+        date = str(timeTuple[2])
+        hours = str(timeTuple[3])
+        minutes = str(timeTuple[4])
+        seconds = str(timeTuple[5])
+        timeStr = year + "/" + month + "/" + date + " " + hours + ":" + minutes + ":" + seconds
+
+        return timeStr
