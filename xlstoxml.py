@@ -80,7 +80,7 @@ class XlsToXml(XlTo):
 
             # Don't add empty cells~
             if (cellName != "" and cellValue != ""):
-                xmlStr += cellName + "=\"" + str(cellValue) + "\" "
+                xmlStr += cellName + "=\"" + cellValue + "\" "
 
             colIndex += 1
 
@@ -94,25 +94,17 @@ class XlsToXml(XlTo):
         cellType = cell.ctype
         cellValue = cell.value
 
-        if cellType == xlrd.XL_CELL_EMPTY or cellType == xlrd.XL_CELL_BLANK:
-            pass
-        elif cellType == xlrd.XL_CELL_TEXT:
-            pass
-        elif cellType == xlrd.XL_CELL_NUMBER:
+        if cellType == xlrd.XL_CELL_NUMBER:
             intValue = int(cellValue)
             if cellValue == intValue:
                 cellValue = intValue
         elif cellType == xlrd.XL_CELL_DATE:
             timeTuple = xlrd.xldate_as_tuple(cellValue, self._xls.datemode)
             cellValue = self._toTimeStr(timeTuple)
-        elif cellType == xlrd.XL_CELL_BOOLEAN:
-            cellValue = int(cellValue)
-        elif cellType == xlrd.XL_CELL_ERROR:
-            pass
 
-        return (cellName, cellValue)
+        return (cellName, (str(cellValue)).strip())
 
-    # 
+    # Convert tuple like (2013, 12, 31, 23, 59, 59) to string '2013/12/31 23:59:59'~
     def _toTimeStr(self, timeTuple):
         year = str(timeTuple[0])
         month = str(timeTuple[1])
