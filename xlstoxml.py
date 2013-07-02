@@ -1,45 +1,14 @@
 import xlrd3 as xlrd
-from xlto import XlTo
+from xlsto import XlsTo
 
-#TODO
-# root tag attributes. (<Sheet version="1.02">)
-
-# Excel parser
-class XlsToXml(XlTo):
-    # Variables
-    _reservedRows = 4
-    _nameRowIndex = 2
-    _xls = None
-
+# Parse .xls file(s) to .xml file(s)~
+class XlsToXml(XlsTo):
     # Initialization
     def __init__(self):
         pass
 
-    @property
-    def reservedRows(self):
-        return self._reservedRows
-
-    @reservedRows.setter
-    def reservedRows(self, value):
-        self._reservedRows = value
-
-    @property
-    def nameRowIndex(self):
-        return self._nameRowIndex
-
-    @nameRowIndex.setter
-    def nameRowIndex(self, value):
-        self._nameRowIndex = value
-
-    # Parse one xls file~
-    def parseFile(self, filePath, outputDir):
-        self._xls = xlrd.open_workbook(filePath)
-
-        for sheet in self._xls.sheets():
-            self._parseSheet(sheet, outputDir)
-
     # Parse one sheet~
-    def _parseSheet(self, sheet, outputDir):
+    def parseSheet(self, sheet, outputDir):
         name = sheet.name
         rows = sheet.nrows - self.reservedRows
         cols = sheet.ncols
