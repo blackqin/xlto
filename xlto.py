@@ -20,7 +20,7 @@ class XlTo:
 
     # Parse one file~
     def parseFile(self, filePath, outputDir):
-        print("[XlTo] Virtual method to parse an file~")
+        print("[XlTo] Virtual method to parse one file~")
 
     # Save as expecting file format~
     def _saveFile(self, outputDir, fileName, fileContent, fileEncoding="utf-8"):

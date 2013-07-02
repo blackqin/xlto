@@ -37,4 +37,4 @@ class XlsTo(XlTo):
 
     # Virtual method to parse one xls sheet to expecting file~
     def parseSheet(self, sheet, outputDir):
-        pass
+        print("[XlsTo] Virtual method to parse one xls sheet~")
