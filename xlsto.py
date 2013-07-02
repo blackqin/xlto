@@ -4,8 +4,8 @@ from xlto import XlTo
 # Base class to parse .xls file(s) to any other expecting file format~
 class XlsTo(XlTo):
     # Variables
-    _reservedRows = 4
-    _nameRowIndex = 2
+    _reservedRows = 0
+    _nameRowIndex = 0
     _xls = None
 
     # Initialization
@@ -33,8 +33,26 @@ class XlsTo(XlTo):
         self._xls = xlrd.open_workbook(filePath)
 
         for sheet in self._xls.sheets():
-            self.parseSheet(sheet, outputDir)
+            if self._isValidSheet(sheet):
+                self.parseSheet(sheet, outputDir)
+
+    # Check validity of the sheet~
+    def _isValidSheet(self, sheet):
+        # Sheet is empty~
+        rows = sheet.nrows - self.reservedRows
+        cols = sheet.ncols
+
+        if rows <= 0 or cols <= 0:
+            return False
+
+        # Unnecessary to parse the sheet if its first letter is neither uppercase nor lowercase~
+        firstChar = sheet.name[0]
+
+        if (not firstChar.isupper()) and (not firstChar.islower()):
+            return False
+
+        return True
 
     # Virtual method to parse one xls sheet to expecting file~
     def parseSheet(self, sheet, outputDir):
-        print("[XlsTo] Virtual method to parse one xls sheet~")
+        print("[XlsTo] Virtual method to parse one sheet~")

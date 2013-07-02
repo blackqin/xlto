@@ -9,19 +9,13 @@ class XlsToXml(XlsTo):
 
     # Parse one sheet~
     def parseSheet(self, sheet, outputDir):
-        name = sheet.name
         rows = sheet.nrows - self.reservedRows
-        cols = sheet.ncols
-
-        # Do nothing if the sheet is empty~
-        if rows <= 0:
-            return
 
         # Generate xml string~
         xmlStr = self._toXmlStr(sheet, rows)
 
         # Save as xml file~
-        fileName = name + ".xml"
+        fileName = sheet.name + ".xml"
         self._saveFile(outputDir, fileName, xmlStr)
 
     # Convert one sheet to xml string~
