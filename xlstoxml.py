@@ -9,13 +9,11 @@ class XlsToXml(XlsTo):
 
     # Parse one sheet~
     def parseSheet(self, sheet, outputDir):
-        rows = sheet.nrows - self.reservedRows
-
-        # Generate xml string~
-        return self._toXmlStr(sheet, rows)
+        return self._toXmlStr(sheet)
 
     # Convert one sheet to xml string~
-    def _toXmlStr(self, sheet, rows):
+    def _toXmlStr(self, sheet):
+        rows = sheet.nrows - self.reservedRows
         rootTagName = sheet.name
         xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
         xmlStr += "<" + rootTagName + ">\n"
