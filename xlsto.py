@@ -3,11 +3,6 @@ from xlto import XlTo
 
 # Base class to parse .xls file(s) to any other expecting file format~
 class XlsTo(XlTo):
-    # Variables
-    _reservedRows = 0
-    _nameRowIndex = 0
-    _xls = None
-
     # Initialization
     def __init__(self):
         pass
@@ -28,13 +23,19 @@ class XlsTo(XlTo):
     def nameRowIndex(self, value):
         self._nameRowIndex = value
 
+    @property
+    def outputFileExt(self):
+        return self._outputFileExt
+
     # Parse one xls file~
     def parseFile(self, filePath, outputDir):
         self._xls = xlrd.open_workbook(filePath)
 
         for sheet in self._xls.sheets():
             if self._isValidSheet(sheet):
-                self.parseSheet(sheet, outputDir)
+                outputContent = self.parseSheet(sheet, outputDir)
+                outputFileName = sheet.name + self._outputFileExt
+                self._saveFile(outputDir, outputFileName, outputContent)
 
     # Check validity of the sheet~
     def _isValidSheet(self, sheet):

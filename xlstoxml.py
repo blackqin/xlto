@@ -5,18 +5,14 @@ from xlsto import XlsTo
 class XlsToXml(XlsTo):
     # Initialization
     def __init__(self):
-        pass
+        self._outputFileExt = ".xml"
 
     # Parse one sheet~
     def parseSheet(self, sheet, outputDir):
         rows = sheet.nrows - self.reservedRows
 
         # Generate xml string~
-        xmlStr = self._toXmlStr(sheet, rows)
-
-        # Save as xml file~
-        fileName = sheet.name + ".xml"
-        self._saveFile(outputDir, fileName, xmlStr)
+        return self._toXmlStr(sheet, rows)
 
     # Convert one sheet to xml string~
     def _toXmlStr(self, sheet, rows):
