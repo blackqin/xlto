@@ -14,14 +14,14 @@ class XlsToXml(XlsTo):
     # Convert one sheet to xml string~
     def _toXmlStr(self, sheet):
         rows = sheet.nrows - self.reservedRows
-        rootTagName = sheet.name
+        sheetName = sheet.name
         xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
-        xmlStr += "<" + rootTagName + ">\n"
+        xmlStr += "<Sheet name=\"" + sheetName + "\">\n"
 
         for i in range(self.reservedRows, self.reservedRows + rows):
             xmlStr += "\t" + self._toXmlRow(sheet, i) + "\n"
 
-        xmlStr += "</" + rootTagName + ">"
+        xmlStr += "</Sheet>"
 
         return xmlStr
 
