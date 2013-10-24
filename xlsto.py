@@ -48,8 +48,9 @@ class XlsTo(XlTo):
 
         # Unnecessary to parse the sheet if its first letter is neither uppercase nor lowercase~
         firstChar = sheet.name[0]
+        firstCharCode = ord(firstChar)
 
-        if (not firstChar.isupper()) and (not firstChar.islower()):
+        if (firstCharCode < 48):
             return False
 
         return True
