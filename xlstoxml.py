@@ -5,6 +5,11 @@ from xlsto import XlsTo
 class XlsToXml(XlsTo):
     # Initialization
     def __init__(self):
+        self.reservedRows = 4
+        self.functionRowIndex = 0
+        self.typeRowIndex = 1
+        self.nameRowIndex = 2
+        self.commentRowIndex = 3
         self._outputFileExt = ".xml"
 
     # Parse one sheet~
@@ -30,7 +35,7 @@ class XlsToXml(XlsTo):
         row = sheet.row(rowIndex)
         colIndex = 0
         cellName = ""
-        xmlStr = "<row "
+        xmlStr = "<Row "
 
         for cell in row:
             (cellName, cellValue) = self._parseCell(sheet, cell, colIndex)

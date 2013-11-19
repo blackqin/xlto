@@ -8,8 +8,9 @@ outputDir = "output"
 
 # Prepare to parse~
 parser = XlsToXml()
-parser.reservedRows = 4
-parser.nameRowIndex = 2
+#parser.reservedRows = 4
+#parser.functionRowIndex = 0
+#parser.nameRowIndex = 2
 
 # Parse xls file(s) from arguments~
 argLen = len(sys.argv)

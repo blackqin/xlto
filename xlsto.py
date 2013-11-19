@@ -5,7 +5,8 @@ from xlto import XlTo
 class XlsTo(XlTo):
     # Initialization
     def __init__(self):
-        pass
+        self._outputFileExt = ""
+        self._outputFileNameCellIndex = 0
 
     @property
     def reservedRows(self):
@@ -16,6 +17,22 @@ class XlsTo(XlTo):
         self._reservedRows = value
 
     @property
+    def functionRowIndex(self):
+        return self._functionRowIndex
+
+    @functionRowIndex.setter
+    def functionRowIndex(self, value):
+        self._functionRowIndex = value
+
+    @property
+    def typeRowIndex(self):
+        return self._typeRowIndex
+
+    @typeRowIndex.setter
+    def typeRowIndex(self, value):
+        self._typeRowIndex = value
+
+    @property
     def nameRowIndex(self):
         return self._nameRowIndex
 
@@ -24,8 +41,22 @@ class XlsTo(XlTo):
         self._nameRowIndex = value
 
     @property
-    def outputFileExt(self):
-        return self._outputFileExt
+    def commentRowIndex(self):
+        return self._commentRowIndex
+
+    @commentRowIndex.setter
+    def commentRowIndex(self, value):
+        self._commentRowIndex = value
+
+    # Get output file name from function cell or sheet name~
+    def _getOutputFileName(self, sheet):
+        cell = sheet.cell(self.functionRowIndex, 0)
+        cellValue = str(cell.value).strip()
+
+        if cellValue == "":
+            return sheet.name + self._outputFileExt
+        else:
+            return cellValue + self._outputFileExt
 
     # Parse one xls file~
     def parseFile(self, filePath, outputDir):
@@ -34,7 +65,7 @@ class XlsTo(XlTo):
         for sheet in self._xls.sheets():
             if self._isValidSheet(sheet):
                 outputContent = self.parseSheet(sheet, outputDir)
-                outputFileName = sheet.name + self._outputFileExt
+                outputFileName = self._getOutputFileName(sheet)
                 self._saveFile(outputDir, outputFileName, outputContent)
 
     # Check validity of the sheet~
