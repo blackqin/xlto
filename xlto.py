@@ -22,6 +22,10 @@ class XlTo:
     def parseFile(self, filePath, outputDir):
         print("[XlTo] Virtual method to parse one file~")
 
+    # Virtual method to parse one xls sheet to expecting file~
+    def parseSheet(self, sheet, outputDir):
+        print("[XlTo] Virtual method to parse one sheet~")
+
     # Save as expecting file format~
     def _saveFile(self, outputDir, fileName, fileContent, fileEncoding="utf-8"):
         filePath = os.path.join(outputDir, fileName)

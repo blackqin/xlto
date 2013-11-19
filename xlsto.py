@@ -54,7 +54,3 @@ class XlsTo(XlTo):
             return False
 
         return True
-
-    # Virtual method to parse one xls sheet to expecting file~
-    def parseSheet(self, sheet, outputDir):
-        print("[XlsTo] Virtual method to parse one sheet~")
